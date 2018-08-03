@@ -1,6 +1,6 @@
 {
   "name": "zwcway/php-to-zephir",
-  "description": "Transform php code to zephir",
+  "description": "将PHP代码转换成Zephir",
   "type": "library",
   "authors": [
     {
