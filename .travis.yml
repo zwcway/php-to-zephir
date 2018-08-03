@@ -1,0 +1,24 @@
+language: php
+sudo : false
+php:
+  - 5.5
+  - 5.6
+  - 7.0
+
+install:
+  - phpize -v
+  - composer selfupdate
+  - composer install --prefer-source
+  - cd ./vendor/phalcon/zephir/
+  - ./unit-tests/ci/before_install.sh
+  - export LD_LIBRARY_PATH="$TRAVIS_BUILD_DIR/build/lib":$LD_LIBRARY_PATH
+  - export LIBRARY_PATH="$TRAVIS_BUILD_DIR/build/lib":$LIBRARY_PATH
+  - export C_INCLUDE_PATH="$TRAVIS_BUILD_DIR/build/include"
+  - ./install-nosudo -c
+  - cd ./../../../
+
+script: ./vendor/bin/phpunit --coverage-clover coverage.clover
+  
+after_script:
+  - wget https://scrutinizer-ci.com/ocular.phar
+  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
